@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//Inject DbContext into our Web-App
+// Add DbContext into our Web-App
 builder.Services.AddDbContext<BlogDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
 
