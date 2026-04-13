@@ -7,10 +7,10 @@ namespace Blog.Web.Controllers
 {
     public class AdminTagsController : Controller
     {
-       private BlogDbContext _blogdbcontext;
-        public AdminTagsController(BlogDbContext blogdbcontext)
+       private BlogDbContext blogdbcontext;
+        public AdminTagsController(BlogDbContext _blogdbcontext)
         {
-            _blogdbcontext = blogdbcontext;
+            blogdbcontext = _blogdbcontext;
         }
 
         [HttpGet]
@@ -30,9 +30,14 @@ namespace Blog.Web.Controllers
                 DisplayName = addTagRequest.DisplayName
             };
 
-            _blogdbcontext.tbl_Tags.Add(tag);
-            _blogdbcontext.SaveChanges();
+            blogdbcontext.tbl_Tags.Add(tag);
+            blogdbcontext.SaveChanges();
             return View("Add");
+        }
+
+        public IActionResult ListallTags()
+        {
+            return View();
         }
         
     }
