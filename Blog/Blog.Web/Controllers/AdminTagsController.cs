@@ -37,7 +37,10 @@ namespace Blog.Web.Controllers
 
         public IActionResult ListallTags()
         {
-            return View();
+            //use dbcontext to read all the tags
+            var tags = blogdbcontext.tbl_Tags.ToList();
+
+            return View(tags);
         }
         
     }

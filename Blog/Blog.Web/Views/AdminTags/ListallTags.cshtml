@@ -1,0 +1,29 @@
+﻿@model List<Blog.Web.Models.Domain.Tag>
+
+
+<div class="container-fluid">
+    <h1>List all Tags</h1>
+</div>
+
+ <div class="container" py-5>
+     @if(Model !=null && Model.Any())
+    {
+        <table class=table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Display Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var tag in Model)
+                {
+                    <tr>@tag.Id</tr>
+                    <tr>@tag.Name</tr>
+                    <tr>@tag.DisplayName</tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
