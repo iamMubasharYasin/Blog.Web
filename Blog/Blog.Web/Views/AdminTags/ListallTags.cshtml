@@ -1,29 +1,32 @@
-﻿@model List<Blog.Web.Models.Domain.Tag>
+﻿@using Blog.Web.Models.Domain
+@model List<Blog.Web.Models.Domain.Tag>
 
 
 <div class="container-fluid">
     <h1>List all Tags</h1>
 </div>
 
- <div class="container" py-5>
+ <div class="container" py-6>
      @if(Model !=null && Model.Any())
     {
-        <table class=table">
+        <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Display Name</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Display Name</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach(var tag in Model)
+                @foreach(var Tag in Model)
                 {
-                    <tr>@tag.Id</tr>
-                    <tr>@tag.Name</tr>
-                    <tr>@tag.DisplayName</tr>
+                    <tr>
+                        <th scope="row">@Tag.Id</th>
+                        <td>@Tag.Name</td>
+                        <td>@Tag.DisplayName</td>
+                    </tr>
                 }
-            </tbody>
+                </tbody>
         </table>
     }
 </div>

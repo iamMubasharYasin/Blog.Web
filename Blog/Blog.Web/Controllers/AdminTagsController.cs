@@ -35,6 +35,7 @@ namespace Blog.Web.Controllers
             return View("Add");
         }
 
+        //[ActionName("List")]
         public IActionResult ListallTags()
         {
             //use dbcontext to read all the tags
