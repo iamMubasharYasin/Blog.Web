@@ -1,0 +1,27 @@
+﻿@model Blog.Web.Models.ViewModels.EditTagRequest
+@{
+}
+<div class="container py-5">
+    <form method="post">
+        <div class="container-fluid">
+            <h1>Edit the Tags</h1>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Id</label>
+            <input type="text" class="form-control" id="Id" asp-for="Id" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" asp-for="Name">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Display Name</label>
+            <input type="text" class="form-control" id="displayName" asp-for="DisplayName">
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary" >Updated</button>
+        </div>
+    </form>
+</div>
+

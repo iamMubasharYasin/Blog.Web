@@ -15,6 +15,7 @@
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
                     <th scope="col">Display Name</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,9 +25,14 @@
                         <th scope="row">@Tag.Id</th>
                         <td>@Tag.Name</td>
                         <td>@Tag.DisplayName</td>
+                        <td><a asp-area="" asp-controller="AdminTags" asp-action="Edit" asp-route-id="@Tag.Id">Edit</a></td>
                     </tr>
                 }
                 </tbody>
         </table>
+    }
+    else
+    {
+        <p>No Tags found</p>
     }
 </div>
