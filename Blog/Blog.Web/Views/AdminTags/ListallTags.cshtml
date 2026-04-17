@@ -16,6 +16,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Display Name</th>
                     <th scope="col">Action</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -26,6 +27,7 @@
                         <td>@Tag.Name</td>
                         <td>@Tag.DisplayName</td>
                         <td><a asp-area="" asp-controller="AdminTags" asp-action="Edit" asp-route-id="@Tag.Id">Edit</a></td>
+                        <td><a asp-area="" asp-controller="AdminTags" asp-action="Delete" asp-route-id="@Tag.Id">Delete</a></td>
                     </tr>
                 }
                 </tbody>
