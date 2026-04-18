@@ -87,7 +87,6 @@ namespace Blog.Web.Controllers
 
                 //show success notification
                 return RedirectToAction("Edit", new { id = editTagRequest.Id });
-
             }
             //Show error notification
             return RedirectToAction("Edit" , new {id=editTagRequest.Id});
@@ -95,21 +94,21 @@ namespace Blog.Web.Controllers
 
         public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
         {
-          var tag =  await blogdbcontext.tbl_Tags.FindAsync(editTagRequest.Id);
+            var tag = await blogdbcontext.tbl_Tags.FindAsync(editTagRequest.Id);
 
-            if(tag!=null)
+            if (tag != null)
             {
                 blogdbcontext.tbl_Tags.Remove(tag);
-               await blogdbcontext.SaveChangesAsync();
+                await blogdbcontext.SaveChangesAsync();
 
                 //Show success notification
                 return RedirectToAction("ListallTags");
             }
 
             // show an error notification
-            return RedirectToAction("Edit" ,new {id = editTagRequest.Id});
+            return RedirectToAction("Edit", new { id = editTagRequest.Id });
+
         }
-         
         
     }
 }
