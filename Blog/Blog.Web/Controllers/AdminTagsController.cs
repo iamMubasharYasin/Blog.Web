@@ -2,6 +2,7 @@
 using Blog.Web.Models.Domain;
 using Blog.Web.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace Blog.Web.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public IActionResult SubmitTag(AddTagRequest addTagRequest)
+        public async  Task<IActionResult> SubmitTag(AddTagRequest addTagRequest)
         {
             //Mapping the AddTagRequest to Tag domain model
             var tag = new Tag
@@ -30,26 +31,26 @@ namespace Blog.Web.Controllers
                 DisplayName = addTagRequest.DisplayName
             };
 
-            blogdbcontext.tbl_Tags.Add(tag);
-            blogdbcontext.SaveChanges();
+            await blogdbcontext.tbl_Tags.AddAsync(tag);
+            await blogdbcontext.SaveChangesAsync();
             return RedirectToAction("ListallTags");
         }
 
-        public IActionResult ListallTags()
+        public async Task<IActionResult> ListallTags()
         {
             //use dbcontext to read all the tags
-            var tags = blogdbcontext.tbl_Tags.ToList();
+            var tags = await blogdbcontext.tbl_Tags.ToListAsync();
             return View(tags);
         }
 
         [HttpGet]
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             //1st Method 
             // var tags = blogdbcontext.tbl_Tags.Find(id);
 
             //2nd Method
-            var tag = blogdbcontext.tbl_Tags.FirstOrDefault(x => x.Id == id);
+            var tag = await blogdbcontext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);
 
             if(tag!=null)
             {
@@ -66,7 +67,7 @@ namespace Blog.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EditTagRequest editTagRequest)
+        public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
             var tag = new Tag
             {
@@ -75,7 +76,7 @@ namespace Blog.Web.Controllers
                 DisplayName = editTagRequest.DisplayName
             };
 
-            var existingTag = blogdbcontext.tbl_Tags.Find(tag.Id);
+            var existingTag = await blogdbcontext.tbl_Tags.FindAsync(tag.Id);
 
             if(existingTag!=null)
             {
@@ -83,7 +84,7 @@ namespace Blog.Web.Controllers
                 existingTag.DisplayName = tag.DisplayName;
 
                 //save changes 
-                blogdbcontext.SaveChanges();
+              await  blogdbcontext.SaveChangesAsync();
 
                 //show success notification
                 return RedirectToAction("Edit", new { id = editTagRequest.Id });
@@ -93,14 +94,14 @@ namespace Blog.Web.Controllers
             return RedirectToAction("Edit" , new {id=editTagRequest.Id});
         }
 
-        public IActionResult Delete(EditTagRequest editTagRequest)
+        public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
         {
-          var tag =  blogdbcontext.tbl_Tags.Find(editTagRequest.Id);
+          var tag =  await blogdbcontext.tbl_Tags.FindAsync(editTagRequest.Id);
 
             if(tag!=null)
             {
                 blogdbcontext.tbl_Tags.Remove(tag);
-                blogdbcontext.SaveChanges();
+               await blogdbcontext.SaveChangesAsync();
 
                 //Show success notification
                 return RedirectToAction("ListallTags");
