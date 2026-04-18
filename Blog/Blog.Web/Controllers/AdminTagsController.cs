@@ -48,7 +48,6 @@ namespace Blog.Web.Controllers
         {
             //1st Method 
             // var tags = blogdbcontext.tbl_Tags.Find(id);
-
             //2nd Method
             var tag = await blogdbcontext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);
 
