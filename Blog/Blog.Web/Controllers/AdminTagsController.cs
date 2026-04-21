@@ -65,7 +65,7 @@ namespace Blog.Web.Controllers
             return View(null);
         }
 
-        [HttpPost]
+        [HttpPost] //Update
         public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
             var tag = new Tag
@@ -92,6 +92,7 @@ namespace Blog.Web.Controllers
             return RedirectToAction("Edit" , new {id=editTagRequest.Id});
         }
 
+        //DeleteController
         public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
         {
             var tag = await blogdbcontext.tbl_Tags.FindAsync(editTagRequest.Id);

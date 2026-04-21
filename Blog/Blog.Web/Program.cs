@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BlogDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
