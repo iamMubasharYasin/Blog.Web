@@ -1,18 +1,20 @@
-﻿using Blog.Web.Data;
-using Blog.Web.Models.Domain;
+﻿using Blog.Web.Models.Domain;
 using Blog.Web.Models.ViewModels;
+using Blog.Web.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Web.Controllers
 {
     public class AdminTagsController : Controller
     {
-       private BlogDbContext blogdbcontext;
-        public AdminTagsController(BlogDbContext _blogdbcontext)
+        private readonly ITagRepository tagRepository;
+
+        public AdminTagsController(ITagRepository tagRepository)
         {
-            blogdbcontext = _blogdbcontext;
+            this.tagRepository = tagRepository;
         }
+
+        // ---------------- ADD ----------------
 
         [HttpGet]
         public IActionResult Add()
@@ -22,36 +24,35 @@ namespace Blog.Web.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public async  Task<IActionResult> SubmitTag(AddTagRequest addTagRequest)
+        public async Task<IActionResult> SubmitTag(AddTagRequest addTagRequest)
         {
-            //Mapping the AddTagRequest to Tag domain model
             var tag = new Tag
             {
                 Name = addTagRequest.Name,
                 DisplayName = addTagRequest.DisplayName
             };
 
-            await blogdbcontext.tbl_Tags.AddAsync(tag);
-            await blogdbcontext.SaveChangesAsync();
+            await tagRepository.AddAsync(tag);
+
             return RedirectToAction("ListallTags");
         }
 
+        // ---------------- LIST ----------------
+
         public async Task<IActionResult> ListallTags()
         {
-            //use dbcontext to read all the tags
-            var tags = await blogdbcontext.tbl_Tags.ToListAsync();
+            var tags = await tagRepository.GetAllAsync();
             return View(tags);
         }
+
+        // ---------------- EDIT (GET) ----------------
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            //1st Method 
-            // var tags = blogdbcontext.tbl_Tags.Find(id);
-            //2nd Method
-            var tag = await blogdbcontext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);
+            var tag = await tagRepository.GetByIdAsync(id);
 
-            if(tag!=null)
+            if (tag != null)
             {
                 var editTagRequest = new EditTagRequest
                 {
@@ -59,13 +60,16 @@ namespace Blog.Web.Controllers
                     Name = tag.Name,
                     DisplayName = tag.DisplayName
                 };
+
                 return View(editTagRequest);
             }
 
             return View(null);
         }
 
-        [HttpPost] //Update
+        // ---------------- EDIT (POST) ----------------
+
+        [HttpPost]
         public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
         {
             var tag = new Tag
@@ -75,41 +79,28 @@ namespace Blog.Web.Controllers
                 DisplayName = editTagRequest.DisplayName
             };
 
-            var existingTag = await blogdbcontext.tbl_Tags.FindAsync(tag.Id);
+            var updatedTag = await tagRepository.UpdateAsync(tag);
 
-            if(existingTag!=null)
+            if (updatedTag != null)
             {
-                existingTag.Name = tag.Name;
-                existingTag.DisplayName = tag.DisplayName;
-
-                //save changes 
-              await  blogdbcontext.SaveChangesAsync();
-
-                //show success notification
-                return RedirectToAction("Edit", new { id = editTagRequest.Id });
-            }
-            //Show error notification
-            return RedirectToAction("Edit" , new {id=editTagRequest.Id});
-        }
-
-        //DeleteController
-        public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
-        {
-            var tag = await blogdbcontext.tbl_Tags.FindAsync(editTagRequest.Id);
-
-            if (tag != null)
-            {
-                blogdbcontext.tbl_Tags.Remove(tag);
-                await blogdbcontext.SaveChangesAsync();
-
-                //Show success notification
                 return RedirectToAction("ListallTags");
             }
 
-            // show an error notification
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
-
         }
-        
+
+        // ---------------- DELETE ----------------
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var deletedTag = await tagRepository.DeleteAsync(id);
+
+            if (deletedTag != null)
+            {
+                return RedirectToAction("ListallTags");
+            }
+
+            return RedirectToAction("ListallTags");
+        }
     }
 }
