@@ -18,6 +18,6 @@ namespace Blog.Web.Models.ViewModels
         public IEnumerable<SelectListItem> Tags { get; set; }
 
         // Collect Tags
-        public string SelectedTag { get; set; }
+        public string[] SelectedTags { get; set; } = Array.Empty<string>();
     }
 }

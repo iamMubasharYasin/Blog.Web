@@ -5,7 +5,7 @@
     <h1>Add Blog Posts - Admin Functionality</h1>
 </div>
 
-<form class="container mt-4">
+<form class="container mt-4" method="post">
 
     <div class="mb-3">
         <label class="form-label">Heading</label>
@@ -54,7 +54,7 @@
 
     <div class="mb-3">
         <label class="form-label">Tags</label>
-        <select class="form-select" asp-for="SelectedTag" asp-items="@Model.Tags"></select>
+        <select class="form-select" asp-for="SelectedTags" asp-items="@Model.Tags"></select>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>

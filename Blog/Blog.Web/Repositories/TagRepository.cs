@@ -1,44 +1,57 @@
 ﻿using Blog.Web.Data;
 using Blog.Web.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Net.WebSockets;
 
 namespace Blog.Web.Repositories
 {
     public class TagRepository : ITagRepository
     {
-        private readonly BlogDbContext dbContext;
+        BlogDbContext dbContext;
 
         public TagRepository(BlogDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        // GET ALL
-        public async Task<IEnumerable<Tag>> GetAllAsync()
-        {
-            return await dbContext.tbl_Tags.ToListAsync();
-        }
-
-        // GET BY ID
-        public async Task<Tag?> GetByIdAsync(Guid id)
-        {
-            return await dbContext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        // ADD
         public async Task<Tag> AddAsync(Tag tag)
         {
             await dbContext.tbl_Tags.AddAsync(tag);
             await dbContext.SaveChangesAsync();
             return tag;
+           // throw new NotImplementedException();
         }
 
-        // UPDATE
+        public async Task<Tag?> DeleteAsync(Guid id)
+        {
+            var existingTag = await dbContext.tbl_Tags.FindAsync(id);
+           
+            if(existingTag!=null)
+            {
+                dbContext.tbl_Tags.Remove(existingTag);
+                await dbContext.SaveChangesAsync();
+                return existingTag;
+            }
+            return null;
+
+        }
+
+        public async Task<IEnumerable<Tag>> GetAllAsync()
+        {
+           return  await dbContext.tbl_Tags.ToListAsync();  
+        }
+
+        public Task<Tag?> GetAsync(Guid id)
+        {
+            return dbContext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);
+           // throw new NotImplementedException();
+        }
+
         public async Task<Tag?> UpdateAsync(Tag tag)
         {
-            var existingTag = await dbContext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == tag.Id);
-
-            if (existingTag != null)
+            var existingTag = await dbContext.tbl_Tags.FindAsync(tag.Id);
+           
+            if(existingTag!=null)
             {
                 existingTag.Name = tag.Name;
                 existingTag.DisplayName = tag.DisplayName;
@@ -46,23 +59,7 @@ namespace Blog.Web.Repositories
                 await dbContext.SaveChangesAsync();
                 return existingTag;
             }
-
             return null;
-        }
-
-        // DELETE
-        public async Task<Tag?> DeleteAsync(Guid id)
-        {
-            var existingTag = await dbContext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);
-
-            if (existingTag != null)
-            {
-                dbContext.tbl_Tags.Remove(existingTag);
-                await dbContext.SaveChangesAsync();
-                return existingTag;
-            }
-
-            return null;
-        }
+        }  
     }
 }

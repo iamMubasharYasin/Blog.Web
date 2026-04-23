@@ -7,14 +7,14 @@ namespace Blog.Web.Controllers
 {
     public class AdminTagsController : Controller
     {
-        private readonly ITagRepository tagRepository;
+        ITagRepository tagRepository;
 
-        public AdminTagsController(ITagRepository tagRepository)
+        public AdminTagsController(ITagRepository _tagRepository)
         {
-            this.tagRepository = tagRepository;
+           tagRepository = _tagRepository;
         }
 
-        // ---------------- ADD ----------------
+        // ADD 
 
         [HttpGet]
         public IActionResult Add()
@@ -26,6 +26,7 @@ namespace Blog.Web.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> SubmitTag(AddTagRequest addTagRequest)
         {
+            //Mapping AddTagRequest to Tag Domain Model
             var tag = new Tag
             {
                 Name = addTagRequest.Name,
@@ -37,20 +38,18 @@ namespace Blog.Web.Controllers
             return RedirectToAction("ListallTags");
         }
 
-        // ---------------- LIST ----------------
-
+        // LIST 
         public async Task<IActionResult> ListallTags()
         {
             var tags = await tagRepository.GetAllAsync();
             return View(tags);
         }
 
-        // ---------------- EDIT (GET) ----------------
-
+        //  EDIT (GET) 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var tag = await tagRepository.GetByIdAsync(id);
+            var tag = await tagRepository.GetAsync(id);
 
             if (tag != null)
             {
@@ -67,7 +66,7 @@ namespace Blog.Web.Controllers
             return View(null);
         }
 
-        // ---------------- EDIT (POST) ----------------
+        // EDIT (POST) 
 
         [HttpPost]
         public async Task<IActionResult> Edit(EditTagRequest editTagRequest)
@@ -89,11 +88,10 @@ namespace Blog.Web.Controllers
             return RedirectToAction("Edit", new { id = editTagRequest.Id });
         }
 
-        // ---------------- DELETE ----------------
-
-        public async Task<IActionResult> Delete(Guid id)
+        // DELETE 
+        public async Task<IActionResult> Delete(EditTagRequest editTagRequest)
         {
-            var deletedTag = await tagRepository.DeleteAsync(id);
+            var deletedTag = await tagRepository.DeleteAsync(editTagRequest.Id);
 
             if (deletedTag != null)
             {
