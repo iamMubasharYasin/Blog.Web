@@ -11,7 +11,8 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Heading</th>
-                <th scope="col">Tags</th>
+                    <th scope="col">Tags</th>
+                <th scope="col"> </th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +27,12 @@
                             <span class="badge bg-secondary">@tag.Name</span>
                         }
                     </td>
-                       
+                    <td>
+                        <a asp-area=""
+                        asp-action="Edit"
+                        asp-controller="AdminBlogPosts"
+                        asp-route-id="@blogPost.Id">Edit</a>
+                    </td>              
                     </tr>
                 }
             </tbody>

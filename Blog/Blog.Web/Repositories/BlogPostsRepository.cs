@@ -29,9 +29,9 @@ namespace Blog.Web.Repositories
             return await blogDbContext.tbl_BlogPost.Include(x => x.Tags).ToListAsync();
         }
 
-        public Task<BlogPost?> GetAsync(Guid id)
+        public async Task<BlogPost?> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+           return await blogDbContext.tbl_BlogPost.Include(x=> x.Tags).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<BlogPost?> UpdateAsync(BlogPost blogPost)

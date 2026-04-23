@@ -77,5 +77,35 @@ namespace Blog.Web.Controllers
            var blogPosts = await blogPostsRepository.GetAllAsync();
             return View(blogPosts);
         }
+
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            // Retrieve the result from the repository
+           var blogPost = await blogPostsRepository.GetAsync(id);
+            var tagsDomainModel = await tagRepository.GetAllAsync();
+
+            // map the domain model into the view model
+            if(blogPost!=null)
+            {
+                var model = new EditBlogPostsRequest
+                {
+                    Id = blogPost.Id,
+                    Heading = blogPost.Heading,
+                    PageTitle = blogPost.PageTitle,
+                    Content = blogPost.Content,
+                    Author = blogPost.Author,
+                    FeaturedImageURL = blogPost.FeaturedImageURL,
+                    URLHandle = blogPost.URLHandle,
+                    ShortDescription = blogPost.ShortDescription,
+                    PublishedDate = blogPost.PublishedDate,
+                    Visible = blogPost.Visible,
+                    Tags = tagsDomainModel.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() }),
+                    SelectedTags = blogPost.Tags.Select(x => x.Id.ToString()).ToArray()
+                };
+                return View(model);
+            }
+           
+            return View(null);
+        }
     }
 }

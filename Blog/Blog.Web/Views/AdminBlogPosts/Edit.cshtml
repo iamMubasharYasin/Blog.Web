@@ -1,0 +1,69 @@
+﻿@model Blog.Web.Models.ViewModels.EditBlogPostsRequest
+
+<div class="container-fluid">
+    <h1>Edit Blog Posts - Admin Functionality</h1>
+</div>
+
+<div class="container py-5">
+    @if(Model!=null)
+    {
+        <div class="mb-3">
+            <label class="form-label">Id</label>
+            <input type="id" class="form-control" id="Id" asp-for="Id" readonly >
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Heading</label>
+            <input type="text" class="form-control" name="Heading" placeholder="Enter heading" asp-for="Heading">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Page Title</label>
+            <input type="text" class="form-control" name="PageTitle" placeholder="Enter page title" asp-for="PageTitle">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Content</label>
+            <textarea class="form-control" name="Content" rows="5" placeholder="Enter content" asp-for="Content"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Short Description</label>
+            <textarea class="form-control" name="ShortDescription" rows="3" placeholder="Enter short description" asp-for="ShortDescription"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Featured Image URL</label>
+            <input type="url" class="form-control" name="FeaturedImageURL" placeholder="Enter image URL" asp-for="FeaturedImageURL">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">URL Handle</label>
+            <input type="text" class="form-control" name="URLHandle" placeholder="Enter URL handle" asp-for="URLHandle">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Published Date</label>
+            <input type="date" class="form-control" name="PublishedDate" asp-for="PublishedDate">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Author</label>
+            <input type="text" class="form-control" name="Author" placeholder="Enter author name" asp-for="Author">
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" name="Visible" id="visibleCheck" asp-for="Visible">
+            <label class="form-check-label" for="visibleCheck">Visible</label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tags</label>
+            <select class="form-select" asp-for="SelectedTags" asp-items="@Model.Tags"></select>
+        </div>
+    }
+    else
+    {
+        <p>No Posts Found</p>
+    }
+</div>
