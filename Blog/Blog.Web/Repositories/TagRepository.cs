@@ -40,7 +40,6 @@ namespace Blog.Web.Repositories
         {
            return  await dbContext.tbl_Tags.ToListAsync();  
         }
-
         public Task<Tag?> GetAsync(Guid id)
         {
             return dbContext.tbl_Tags.FirstOrDefaultAsync(x => x.Id == id);

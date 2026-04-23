@@ -1,0 +1,35 @@
+﻿@using System.Reflection.Metadata
+@model List<Blog.Web.Models.Domain.BlogPost>
+
+<div class="container-fluid">
+    <h1>List of all Blog Posts - Admin Functionality</h1>
+</div>
+
+<div class="container" py-6>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Heading</th>
+                <th scope="col">Tags</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var blogPost in Model)
+                {
+                    <tr>
+                        <th scope="row">@blogPost.Id</th>
+                        <td>@blogPost.Heading</td>
+                    <td>
+                        @foreach (var tag in blogPost.Tags)
+                        {
+                            <span class="badge bg-secondary">@tag.Name</span>
+                        }
+                    </td>
+                       
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        

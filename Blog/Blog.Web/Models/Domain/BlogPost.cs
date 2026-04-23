@@ -14,6 +14,7 @@
         public Boolean Visible { get; set; }
 
         //Many-to-Many RelationShip
+        //Navigation Property
         public ICollection<Tag> Tags { get; set; }
     }
 }
