@@ -5,14 +5,20 @@
     <h1>List of all Blog Posts - Admin Functionality</h1>
 </div>
 
-<div class="container" py-6>
+
+
+
+    <div class="container" py-6>
+
+        @if(Model!=null && Model.Any())
+    {
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Heading</th>
                     <th scope="col">Tags</th>
-                <th scope="col"> </th>
+                    <th scope="col"> </th>
                 </tr>
             </thead>
             <tbody>
@@ -21,21 +27,32 @@
                     <tr>
                         <th scope="row">@blogPost.Id</th>
                         <td>@blogPost.Heading</td>
-                    <td>
-                        @foreach (var tag in blogPost.Tags)
-                        {
-                            <span class="badge bg-secondary">@tag.Name</span>
-                        }
-                    </td>
-                    <td>
-                        <a asp-area=""
-                        asp-action="Edit"
-                        asp-controller="AdminBlogPosts"
-                        asp-route-id="@blogPost.Id">Edit</a>
-                    </td>              
+                        <td>
+                            @foreach (var tag in blogPost.Tags)
+                            {
+                                <span class="badge bg-secondary">@tag.Name</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-area=""
+                               asp-action="Edit"
+                               asp-controller="AdminBlogPosts"
+                               asp-route-id="@blogPost.Id">Edit</a>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
-        
-        
+    }
+    else
+    {
+        <h1>No Blog Posts found...</h1>
+    }
+
+      
+
+</div>
+
+
+   
+
