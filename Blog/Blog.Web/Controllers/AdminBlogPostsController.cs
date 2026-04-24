@@ -78,6 +78,7 @@ namespace Blog.Web.Controllers
             return View(blogPosts);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             // Retrieve the result from the repository
@@ -107,5 +108,54 @@ namespace Blog.Web.Controllers
            
             return View(null);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditBlogPostsRequest editBlogPostsRequest)
+        {
+            //mapping view model to domain model
+            var blogPostDomainModel = new BlogPost
+            {
+                Id = editBlogPostsRequest.Id,
+                Heading = editBlogPostsRequest.Heading,
+                PageTitle = editBlogPostsRequest.PageTitle,
+                Content = editBlogPostsRequest.Content,
+                Author = editBlogPostsRequest.Author,
+                ShortDescription = editBlogPostsRequest.ShortDescription,
+                FeaturedImageURL = editBlogPostsRequest.FeaturedImageURL,
+                PublishedDate = editBlogPostsRequest.PublishedDate,
+                URLHandle = editBlogPostsRequest.URLHandle,
+                Visible = editBlogPostsRequest.Visible
+            };
+
+            //maps tags into domain model
+            var selectedTags = new List<Tag>();
+            foreach(var selectedTag in editBlogPostsRequest.SelectedTags)
+            {
+                if (Guid.TryParse(selectedTag, out var tag)) 
+                {
+                  var foundTag =  await tagRepository.GetAsync(tag);
+
+                    if(foundTag != null)
+                    {
+                        selectedTags.Add(foundTag);
+                    }
+                }
+            };
+           
+
+            //  blogPostDomainModel.Tags = (IEnumerable<SelectListItem>)selectedTags;
+            blogPostDomainModel.Tags = selectedTags;
+
+            var updateBlog = await blogPostsRepository.UpdateAsync(blogPostDomainModel);
+          
+            if(updateBlog!=null)
+            {
+                // show success notification
+                return RedirectToAction("Edit");
+            }
+            // show error notification
+            return RedirectToAction("Edit");
+        }
+
     }
 }
