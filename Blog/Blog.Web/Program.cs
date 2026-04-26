@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 // Add DbContext into our Web-App
 builder.Services.AddDbContext<BlogDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
+
 //Add Repository Pattern
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostsRepository, BlogPostsRepository>();
