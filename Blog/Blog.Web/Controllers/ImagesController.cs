@@ -8,9 +8,10 @@ namespace Blog.Web.Controllers
     [ApiController]
     public class ImagesController : ControllerBase
     {
-        public IActionResult Index()
+        [HttpPost]
+        public async Task<IActionResult> UploadAsync(IFormFile formFile)
         {
-            return Ok("This is the Get Images API");
+             //call the repository
         }
     }
 }
