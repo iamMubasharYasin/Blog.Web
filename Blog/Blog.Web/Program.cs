@@ -14,6 +14,7 @@ builder.Services.AddDbContext<BlogDbContext>
 //Add Repository Pattern
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IBlogPostsRepository, BlogPostsRepository>();
+builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
 
 var app = builder.Build();
 
