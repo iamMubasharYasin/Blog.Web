@@ -13,7 +13,6 @@ namespace Blog.Web.Repositories
         {
             this.dbContext = dbContext;
         }
-
         public async Task<Tag> AddAsync(Tag tag)
         {
             await dbContext.tbl_Tags.AddAsync(tag);
