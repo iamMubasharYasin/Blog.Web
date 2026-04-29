@@ -30,6 +30,11 @@
 
     <div class="mb-3">
         <label class="form-label">Featured Image URL</label>
+        <input type="file" id="featuredImageUpload" class="form-control"/>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Featured Image URL</label>
         <input type="url" class="form-control" name="FeaturedImageURL" placeholder="Enter image URL" asp-for="FeaturedImageURL">
     </div>
 
@@ -66,5 +71,10 @@
     {
         <script>
             var editor = new FroalaEditor('#content');
+
+        
         </script>
+
+
+
     }
