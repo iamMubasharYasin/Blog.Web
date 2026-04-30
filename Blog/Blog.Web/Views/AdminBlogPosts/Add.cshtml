@@ -1,6 +1,5 @@
 ﻿@model Blog.Web.Models.ViewModels.AddBlogPostsRequest
 
-
 <div class="container-fluid">
     <h1>Add Blog Posts - Admin Functionality</h1>
     <hr />
@@ -10,51 +9,53 @@
 
     <div class="mb-3">
         <label class="form-label">Heading</label>
-        <input type="text" class="form-control" name="Heading" placeholder="Enter heading" asp-for="Heading">
+        <input type="text" class="form-control" asp-for="Heading" placeholder="Enter heading">
     </div>
 
     <div class="mb-3">
         <label class="form-label">Page Title</label>
-        <input type="text" class="form-control" name="PageTitle" placeholder="Enter page title" asp-for="PageTitle">
+        <input type="text" class="form-control" asp-for="PageTitle" placeholder="Enter page title">
     </div>
 
     <div class="mb-3">
         <label class="form-label">Content</label>
-        <textarea class="form-control" id="content" name="Content" rows="5" placeholder="Enter content" asp-for="Content"></textarea>
+        <textarea class="form-control" id="content" asp-for="Content" rows="5" placeholder="Enter content"></textarea>
     </div>
 
     <div class="mb-3">
         <label class="form-label">Short Description</label>
-        <textarea class="form-control" name="ShortDescription" rows="3" placeholder="Enter short description" asp-for="ShortDescription"></textarea>
+        <textarea class="form-control" asp-for="ShortDescription" rows="3" placeholder="Enter short description"></textarea>
     </div>
 
+    <!-- FILE UPLOAD -->
     <div class="mb-3">
-        <label class="form-label">Featured Image URL</label>
-        <input type="file" id="featuredImageUpload" class="form-control"/>
+        <label class="form-label">Upload Featured Image</label>
+        <input type="file" id="featuredImageUpload" class="form-control" />
     </div>
 
+    <!-- IMAGE URL (AUTO FILL) -->
     <div class="mb-3">
         <label class="form-label">Featured Image URL</label>
-        <input type="url" class="form-control" name="FeaturedImageURL" placeholder="Enter image URL" asp-for="FeaturedImageURL">
+        <input type="url" id="featuredImageUrl" class="form-control" asp-for="FeaturedImageURL" placeholder="Image URL will appear here">
     </div>
 
     <div class="mb-3">
         <label class="form-label">URL Handle</label>
-        <input type="text" class="form-control" name="URLHandle" placeholder="Enter URL handle" asp-for="URLHandle">
+        <input type="text" class="form-control" asp-for="URLHandle" placeholder="Enter URL handle">
     </div>
 
     <div class="mb-3">
         <label class="form-label">Published Date</label>
-        <input type="date" class="form-control" name="PublishedDate" asp-for="PublishedDate">
+        <input type="date" class="form-control" asp-for="PublishedDate">
     </div>
 
     <div class="mb-3">
         <label class="form-label">Author</label>
-        <input type="text" class="form-control" name="Author" placeholder="Enter author name" asp-for="Author">
+        <input type="text" class="form-control" asp-for="Author" placeholder="Enter author name">
     </div>
 
     <div class="form-check mb-3">
-        <input type="checkbox" class="form-check-input" name="Visible" id="visibleCheck" asp-for="Visible">
+        <input type="checkbox" class="form-check-input" asp-for="Visible" id="visibleCheck">
         <label class="form-check-label" for="visibleCheck">Visible</label>
     </div>
 
@@ -62,14 +63,57 @@
         <label class="form-label">Tags</label>
         <select class="form-select" asp-for="SelectedTags" asp-items="@Model.Tags"></select>
     </div>
+
     <button type="submit" class="btn btn-primary">Submit</button>
 
 </form>
 
-    @section Scripts
-    {
-        <script>
-            var editor = new FroalaEditor('#content');
-        </script>
+@section Scripts
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
-    }
+            // Froala Editor
+            var editor = new FroalaEditor('#content',{
+                imageUploadURL :'/api/images'
+            });
+
+            const featuredUploadElement = document.getElementById('featuredImageUpload');
+            const featuredImageUrlElement = document.getElementById('featuredImageUrl');
+
+            async function uploadFeaturedImage(e) {
+
+                const file = e.target.files[0];
+                if (!file) return;
+
+                console.log(file);
+
+                let data = new FormData();
+                data.append('file', file);
+
+                try {
+                    const response = await fetch('/api/images', {
+                        method: 'POST',
+                        body: data
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Image upload failed');
+                    }
+
+                    const result = await response.json();
+
+                    // Set URL in textbox
+                    featuredImageUrlElement.value = result.link;
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Image upload failed!');
+                }
+            }
+
+            featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+
+        });
+    </script>
+}
