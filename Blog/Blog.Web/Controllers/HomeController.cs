@@ -1,14 +1,22 @@
 using Blog.Web.Models;
+using Blog.Web.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Blog.Web.Controllers
 {
     public class HomeController : Controller
-    { 
-        public IActionResult Index()
+    {
+        IBlogPostsRepository blogPostsRepository;
+        public HomeController(IBlogPostsRepository blogPostsRepository)
         {
-            return View();
+            this.blogPostsRepository = blogPostsRepository;
+        }
+        public async Task<IActionResult> Index()
+        {
+           var blogPosts =  await blogPostsRepository.GetAllAsync();
+
+            return View(blogPosts);
         }
     }
 }

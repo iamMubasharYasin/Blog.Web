@@ -1,9 +1,60 @@
-﻿@{
+﻿@model List<Blog.Web.Models.Domain.BlogPost>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to BlogPosts Website</h1>
-    <h2 class="display-4">Article of Mubashar Yasin</h2>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <div class="row align-items-center">
+
+        <!-- Left Content -->
+        <div class="col-md-6">
+            <h1 class="display-4 fw-bold">
+                Welcome to My Blog
+            </h1>
+            <p class="lead text-muted mt-3">
+                Discover insightful articles, tutorials, and ideas on web development,
+                .NET, and modern technology. Stay updated and keep learning with us.
+            </p>
+        </div>
+
+        <!-- Right Image -->
+        <div class="col-md-6 text-center">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085"
+                 alt="Blog Image"
+                 class="img-fluid rounded-4 shadow">
+        </div>
+    </div>
 </div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            @if(Model !=null && Model.Any())
+            {
+                foreach(var blogPost in Model)
+                {
+                    <div class="mb-5 bg-light box-shadow p-5">
+                        <img src="@blogPost.FeaturedImageURL"  alt="@blogPost.Heading"  class="mb-2 d-block img-fluid"/>
+                        <h2 class="mb-4">@blogPost.Heading</h2>
+                        <p class="mb-4">Author: @blogPost.Author
+                            <br />
+                            Published Date: @blogPost.PublishedDate.ToShortDateString()
+                        </p>
+                        <p class="mb-4">
+                            @foreach (var tag in blogPost.Tags)
+                            {
+                                <span class="badge bg-secondary">@tag.Name</span>
+                            }
+                        </p>
+
+                        <p class="mb-4">@blogPost.ShortDescription</p>
+
+                        <a class="btn btn-dark" href="#">Read More</a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
