@@ -18,5 +18,7 @@ namespace Blog.Web.Controllers
 
             return View(blogPosts);
         }
+
+
     }
 }
