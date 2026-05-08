@@ -4,7 +4,7 @@ A scalable and responsive Blog Web Application built using ASP.NET Core MVC (.NE
 
 ---
 
-## 🚀 Features
+##  Features
 
 - Complete CRUD Operations for Blog Management
 - ASP.NET Core MVC (.NET 10)
@@ -20,7 +20,7 @@ A scalable and responsive Blog Web Application built using ASP.NET Core MVC (.NE
 
 ---
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 - ASP.NET Core MVC (.NET 10)
 - C#
@@ -33,7 +33,7 @@ A scalable and responsive Blog Web Application built using ASP.NET Core MVC (.NE
 
 ---
 
-## 📌 Project Description
+## Project Description
 
 Developed a scalable and responsive Blog Web Application using ASP.NET Core MVC (.NET 10) following Clean Architecture principles and modern development practices.
 
@@ -53,21 +53,21 @@ Focused on scalability, clean coding standards, and real-world .NET web developm
 
 ---
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
-### 1️⃣ Clone Repository
+### 1️. Clone Repository
 
 ```bash
 git clone https://github.com/your-username/your-repository-name.git
 ```
 
-### 2️⃣ Navigate to Project Folder
+### 2️. Navigate to Project Folder
 
 ```bash
 cd your-repository-name
 ```
 
-### 3️⃣ Update Database Connection String
+### 3️. Update Database Connection String
 
 Add your SQL Server connection string inside:
 
@@ -83,13 +83,13 @@ Example:
 }
 ```
 
-### 4️⃣ Apply Migrations
+### 4️. Apply Migrations
 
 ```bash
 dotnet ef database update
 ```
 
-### 5️⃣ Run the Application
+### 5️. Run the Application
 
 ```bash
 dotnet run
@@ -97,7 +97,7 @@ dotnet run
 
 ---
 
-## 🔐 Authentication & Authorization
+##  Authentication & Authorization
 
 - User Registration & Login
 - Role-Based Authorization
@@ -105,7 +105,7 @@ dotnet run
 
 ---
 
-## ☁️ Cloudinary Integration
+##  Cloudinary Integration
 
 Used Cloudinary API for:
 
@@ -115,7 +115,7 @@ Used Cloudinary API for:
 
 ---
 
-## ✍️ Rich Text Editor
+##  Rich Text Editor
 
 Integrated Flora Rich Text Editor for:
 
@@ -126,7 +126,7 @@ Integrated Flora Rich Text Editor for:
 ---
 
 
-## 👨‍💻 Developer
+##  Developer
 
 **Mubashar Yasin**  
 Computer Science Student | .NET Web Developer
