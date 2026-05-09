@@ -1,5 +1,6 @@
 using Blog.Web.Data;
 using Blog.Web.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,12 @@ builder.Services.AddControllersWithViews();
 // Add DbContext into our Web-App
 builder.Services.AddDbContext<BlogDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("BlogDbConnectionString")));
+
+// Add AuthDbContext into our Web-App
+builder.Services.AddDbContext<AuthDbContext>
+    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("AuthBlogDbConnectionString")));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
 
 //Add Repository Pattern
 builder.Services.AddScoped<ITagRepository, TagRepository>();
@@ -29,6 +36,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

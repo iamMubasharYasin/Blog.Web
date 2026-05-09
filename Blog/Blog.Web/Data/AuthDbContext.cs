@@ -17,7 +17,7 @@ namespace Blog.Web.Data
             //Seed (User,Admin,SuperAdmin)
             var adminRoleId = "221b7fbd-593e-4856-9bfb-a5dcfba257d0";
             var userRoleId = "ff7ee110-0ed6-4127-a551-7fa914bba52f";
-            var superadminRoleId = "221b7fbd-593e-4856-9bfb-a5dcfba257d0";
+            var superadminRoleId = "e8632dc9-f5d2-4759-81c6-eee98a418415";
 
             var roles = new List<IdentityRole>
             {
@@ -84,7 +84,8 @@ namespace Blog.Web.Data
                 },
             };
 
-            builder.Entity<IdentityUserRole<string>>().HasData(superAdminRoles);
+            builder.Entity<IdentityUser>().HasData(SuperAdminUser);
+           
         }
 
        
