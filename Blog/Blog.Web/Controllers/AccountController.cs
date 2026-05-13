@@ -7,9 +7,11 @@ namespace Blog.Web.Controllers
     public class AccountController : Controller
     {
         UserManager<IdentityUser> userManager;
-        public AccountController(UserManager<IdentityUser> userManager)
+        SignInManager<IdentityUser> signInManager;
+        public AccountController(UserManager<IdentityUser> userManager , SignInManager<IdentityUser> signInManager)
         {
             this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
@@ -44,6 +46,26 @@ namespace Blog.Web.Controllers
             //show error notification
             return View();
 
+        }
+
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+          var signInResult =   await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, false, false);
+
+            if(signInResult !=null && signInResult.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            //show error
+            return View();
         }
     }
 }
