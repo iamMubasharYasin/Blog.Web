@@ -52,6 +52,7 @@ namespace Blog.Web.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+           
             return View();
         }
 
@@ -62,6 +63,7 @@ namespace Blog.Web.Controllers
 
             if(signInResult !=null && signInResult.Succeeded)
             {
+                
                 return RedirectToAction("Index", "Home");
             }
             //show error
