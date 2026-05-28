@@ -8,6 +8,5 @@
 
         public string? ReturnUrl { get; set; }
 
-
     }
 }
