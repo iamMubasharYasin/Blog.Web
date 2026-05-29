@@ -16,5 +16,7 @@
         //Many-to-Many RelationShip
         //Navigation Property
         public ICollection<Tag> Tags { get; set; }
+
+        public ICollection<BlogPostLike> Likes { get; set; }
     }
 }
