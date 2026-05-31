@@ -1,4 +1,5 @@
 ﻿using Blog.Web.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Web.Repositories
 {
@@ -10,9 +11,10 @@ namespace Blog.Web.Repositories
             blogDbContext = _blogDbContext;
         }
 
-        public Task<int> GetTotalLikes(Guid blogPostId)
+        public async Task<int> GetTotalLikes(Guid blogPostId)
         {
-            throw new NotImplementedException();
+            return await blogDbContext.tbl_BlogPostLike.CountAsync(x => x.BlogPostId == blogPostId);
+            //throw new NotImplementedException();
         }
     }
 }
