@@ -8,7 +8,7 @@ namespace Blog.Web.Controllers
     {
         IBlogPostsRepository blogPostsRepository;
         IBlogPostLikeRepository blogPostLikeRepository;
-        //private int totalLikes;
+        
 
         public BlogController(IBlogPostsRepository blogPostsRepository , IBlogPostLikeRepository blogPostLikeRepository)
         {
