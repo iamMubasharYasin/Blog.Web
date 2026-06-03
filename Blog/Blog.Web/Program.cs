@@ -20,7 +20,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkSto
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    //Defaut Setting
+    //Defaut Setting for password
     options.Password.RequireDigit = true;
     options.Password.RequireUppercase = true;
     options.Password.RequireLowercase = true;
