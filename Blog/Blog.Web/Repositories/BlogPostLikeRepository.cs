@@ -14,7 +14,6 @@ namespace Blog.Web.Repositories
         public async Task<int> GetTotalLikes(Guid blogPostId)
         {
             return await blogDbContext.tbl_BlogPostLike.CountAsync(x => x.BlogPostId == blogPostId);
-
         }
     }
 }
