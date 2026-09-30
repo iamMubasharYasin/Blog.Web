@@ -18,7 +18,6 @@ namespace Blog.Web.Controllers
             tagRepository = _tagRepository;
             blogPostsRepository = _blogPostsRepository;
         }
-
         [HttpGet]
         public async Task<IActionResult> Add()
         {
