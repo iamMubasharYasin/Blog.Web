@@ -14,7 +14,9 @@ namespace Blog.Web.Models.ViewModels
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public Boolean Visible { get; set; }
-        public int TotalLikes { get; set; }
+      
         public ICollection<Tag> Tags { get; set; }
+
+        public int TotalLikes { get; set; }
     }
 }
