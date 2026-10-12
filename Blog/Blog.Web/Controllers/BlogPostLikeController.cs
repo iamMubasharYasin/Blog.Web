@@ -13,7 +13,7 @@ namespace Blog.Web.Controllers
 
         public async Task<IActionResult> AddLike([FromBody] AddLikeRequest addLikeRequest)
         {
-
+            return Ok("Add Like endpoint is working.");
         }
     }
 }
