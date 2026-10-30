@@ -47,7 +47,6 @@ namespace Blog.Web.Controllers
 
         }
 
-
         [HttpGet]
         public IActionResult Login(string ReturnUrl)
         {
@@ -73,7 +72,7 @@ namespace Blog.Web.Controllers
                 
                 return RedirectToAction("Index", "Home");
             }
-            //show error
+          
             return View();
         }
 
