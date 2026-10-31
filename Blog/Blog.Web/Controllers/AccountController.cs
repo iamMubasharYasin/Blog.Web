@@ -33,12 +33,12 @@ namespace Blog.Web.Controllers
         
             if(identityResult.Succeeded)
             {
-                //assign this user the "User" role
+                
                var roleIdentityResult = await userManager.AddToRoleAsync(identityUser, "User");
 
                 if(roleIdentityResult.Succeeded)
                 {
-                    //show success notification
+                    
                     return RedirectToAction("Register");
                 }
             }
