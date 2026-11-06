@@ -6,6 +6,8 @@ namespace Blog.Web.Repositories
     {
         Task<BlogPostLike> AddLikeForBlog(BlogPostLike blogPostLike);
 
+        Task<IEnumerable<BlogPostLike>>GetLikesForBlog(Guid blogPostId);
+
         Task<int> GetTotalLikes(Guid blogPostId);
     }
 }

@@ -21,6 +21,13 @@ namespace Blog.Web.Repositories
             return blogPostLike;
         }
 
+        public async Task<IEnumerable<BlogPostLike>> GetLikesForBlog(Guid blogPostId)
+        {
+          return  await blogDbContext.tbl_BlogPostLike.Where(x => x.BlogPostId == blogPostId).ToListAsync();
+          //  return 
+            //throw new NotImplementedException();
+        }
+
         public async Task<int> GetTotalLikes(Guid blogPostId)
         {
             return await blogDbContext.tbl_BlogPostLike.CountAsync(x => x.BlogPostId == blogPostId);
