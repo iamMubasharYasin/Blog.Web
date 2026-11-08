@@ -57,8 +57,6 @@ namespace Blog.Web.Controllers
                     
                 }
 
-
-
                  blogDetailsViewModel = new BlogDetailsViewModel
                 {
                     Id = blogPost.Id,
