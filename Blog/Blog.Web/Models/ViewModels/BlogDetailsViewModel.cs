@@ -21,5 +21,7 @@ namespace Blog.Web.Models.ViewModels
 
         public Boolean Liked { get; set; }
 
+        public string CommentDescription { get; set; }
+
     }
 }

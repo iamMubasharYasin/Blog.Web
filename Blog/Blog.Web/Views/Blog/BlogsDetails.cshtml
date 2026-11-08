@@ -4,9 +4,8 @@
 
 @model Blog.Web.Models.ViewModels.BlogDetailsViewModel
 
-@* For SEO  *@
 @{
-    ViewData["Title"] = Model.PageTitle;
+    ViewData["Title"] = Model?.PageTitle;
 }
 
 <div class="row">
@@ -20,7 +19,9 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <span class="text-secondary">@Model.Author</span>
-                        <span class="text-secondary">@Model.PublishedDate.ToShortDateString()</span>
+                        <span class="text-secondary">
+                            @Model.PublishedDate.ToShortDateString()
+                        </span>
                     </div>
 
                     <div class="mb-3 d-flex">
@@ -31,11 +32,9 @@
                     </div>
 
                     <div class="mb-3">
-
-                        @if(signInManager.IsSignedIn(User))
+                        @if (signInManager.IsSignedIn(User))
                         {
-
-                            if(Model.Liked)
+                            if (Model.Liked)
                             {
                                 <a style="cursor: pointer;">
                                     <i class="bi bi-hand-thumbs-up-fill"></i>
@@ -47,26 +46,56 @@
                                     <i class="bi bi-hand-thumbs-up"></i>
                                 </a>
                             }
-                            
                         }
-                        <span id="totalLikes" >@Model.TotalLikes</span> likes
+
+                        <span id="totalLikes">@Model.TotalLikes</span> likes
                     </div>
 
-                    <img src="@Model.FeaturedImageURL" class="d-block img-fluid mb-3" />
+                    <img src="@Model.FeaturedImageURL"
+                         class="d-block img-fluid mb-3"
+                         alt="@Model.Heading" />
 
                     <div class="mb-3 blog-details-content">
                         @Html.Raw(Model.Content)
                     </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Comments</h5>
+                        </div>
+
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <form method="post" asp-controller="Blog" asp-action="BlogsDetails">
+                                <div class="mb-3">
+                                    <textarea asp-for="CommentDescription" class="form-control"></textarea>
+                                    <input type="hidden" asp-for="Id" />
+                                    <input type="hidden" asp-for="URLHandle" />
+                                </div>
+
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-dark">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        }
+
+                        <div class="card-body">
+                            <!-- Comments go here -->
+                        </div>
+                    </div>
                 }
                 else
                 {
-                    <p>BlogPost not found</p>
+                    <p>Blog post not found.</p>
                 }
 
             </div>
         </div>
     </div>
 </div>
+
 @section Scripts {
     @if (Model != null)
     {
@@ -100,7 +129,6 @@
             async function addLikeForBlog(event) {
                 event.preventDefault();
 
-                // Prevent repeated clicks while the request is running.
                 if (likeRequestInProgress) {
                     return;
                 }
@@ -159,5 +187,4 @@
             }
         </script>
     }
-}
 }

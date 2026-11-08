@@ -1,7 +1,9 @@
-﻿using Blog.Web.Models.ViewModels;
+using Blog.Web.Models.Domain;
+using Blog.Web.Models.ViewModels;
 using Blog.Web.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Blog.Web.Controllers
 {
@@ -9,15 +11,18 @@ namespace Blog.Web.Controllers
     {
         IBlogPostsRepository blogPostsRepository;
         IBlogPostLikeRepository blogPostLikeRepository;
+        IBlogPostCommentRepository blogPostCommentRepository;
         SignInManager<IdentityUser> signInManager;        
 
         public BlogController(IBlogPostsRepository blogPostsRepository , 
             IBlogPostLikeRepository blogPostLikeRepository ,
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IBlogPostCommentRepository blogPostCommentRepository)
         {
             this.blogPostsRepository = blogPostsRepository;
             this.blogPostLikeRepository = blogPostLikeRepository;
+            this.blogPostCommentRepository = blogPostCommentRepository;
             this.signInManager = signInManager;
             UserManager = userManager;
             
@@ -72,6 +77,22 @@ namespace Blog.Web.Controllers
                 };
             }
             return View(blogDetailsViewModel);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> BlogsDetails(BlogDetailsViewModel blogDetailsViewModel)
+        {
+            var domainModel = new BlogPostComment
+            {
+                BlogPostId = blogDetailsViewModel.Id,
+                Description = blogDetailsViewModel.CommentDescription,
+                UserId = Guid.Parse(UserManager.GetUserId(User)),
+                DateAdded = DateTime.Now
+            };
+
+           await  blogPostCommentRepository.AddAsync(domainModel);
+            return RedirectToAction("BlogsDetails", "Blog", new { urlHandle = blogDetailsViewModel.URLHandle });
         }
     }
 }
