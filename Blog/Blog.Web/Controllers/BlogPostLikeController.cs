@@ -1,4 +1,4 @@
-﻿using Blog.Web.Models.Domain;
+using Blog.Web.Models.Domain;
 using Blog.Web.Models.ViewModels;
 using Blog.Web.Repositories;
 using Microsoft.AspNetCore.Http;

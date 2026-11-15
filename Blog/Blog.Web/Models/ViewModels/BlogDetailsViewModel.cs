@@ -23,5 +23,9 @@ namespace Blog.Web.Models.ViewModels
 
         public string CommentDescription { get; set; }
 
+        public IEnumerable<BlogCommentViewModel> Comments { get; set; }
+        //public string CommentDescription { get; internal set; }
+        // public string CommentDescription { get; set; }
+
     }
 }

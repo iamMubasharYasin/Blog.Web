@@ -57,6 +57,20 @@ namespace Blog.Web.Controllers
                     
                 }
 
+                //Get Comments for Blog
+                var blogCommentsDomainModel = await blogPostCommentRepository.GetByCommentBlogIdAsync(blogPost.Id);
+                var blogCommentsforView = new List<BlogCommentViewModel>();
+                foreach(var blogComment in blogCommentsDomainModel.OrderByDescending(x => x.DateAdded))
+                {
+                    var commentUser = await UserManager.FindByIdAsync(blogComment.UserId.ToString());
+                    blogCommentsforView.Add(new BlogCommentViewModel
+                    {
+                            Description = blogComment.Description,
+                            DateAdded = blogComment.DateAdded,
+                            Username = commentUser?.UserName ?? "User"
+                    });
+                }
+               
                  blogDetailsViewModel = new BlogDetailsViewModel
                 {
                     Id = blogPost.Id,
@@ -71,7 +85,9 @@ namespace Blog.Web.Controllers
                     Visible = blogPost.Visible,
                     Tags = blogPost.Tags,
                     TotalLikes = totalLikes,
-                    Liked = liked
+                    Liked = liked,
+                    Comments = blogCommentsforView
+                    
                 };
             }
             return View(blogDetailsViewModel);
@@ -81,11 +97,22 @@ namespace Blog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> BlogsDetails(BlogDetailsViewModel blogDetailsViewModel)
         {
+            if (!signInManager.IsSignedIn(User) || string.IsNullOrWhiteSpace(blogDetailsViewModel.CommentDescription))
+            {
+                return RedirectToAction("BlogsDetails", "Blog", new { urlHandle = blogDetailsViewModel.URLHandle });
+            }
+
+            var userId = UserManager.GetUserId(User);
+            if (!Guid.TryParse(userId, out var parsedUserId))
+            {
+                return RedirectToAction("BlogsDetails", "Blog", new { urlHandle = blogDetailsViewModel.URLHandle });
+            }
+
             var domainModel = new BlogPostComment
             {
                 BlogPostId = blogDetailsViewModel.Id,
                 Description = blogDetailsViewModel.CommentDescription,
-                UserId = Guid.Parse(UserManager.GetUserId(User)),
+                UserId = parsedUserId,
                 DateAdded = DateTime.Now
             };
 

@@ -11,7 +11,7 @@
 <div class="row">
     <div class="container my-8">
         <div class="row justify-content-center">
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-8">
 
                 @if (Model != null)
                 {
@@ -59,32 +59,69 @@
                         @Html.Raw(Model.Content)
                     </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Comments</h5>
+                    <section class="comments-panel mt-5" id="comments" aria-labelledby="comments-heading">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <p class="comments-eyebrow mb-1">COMMUNITY</p>
+                                <h2 class="h4 mb-0" id="comments-heading">Join the discussion</h2>
+                            </div>
+                            <span class="comments-count">@(Model.Comments?.Count() ?? 0) comments</span>
                         </div>
 
                         @if (signInManager.IsSignedIn(User))
                         {
-                            <form method="post" asp-controller="Blog" asp-action="BlogsDetails">
+                            <form method="post" asp-controller="Blog" asp-action="BlogsDetails" class="comment-composer mb-4">
                                 <div class="mb-3">
-                                    <textarea asp-for="CommentDescription" class="form-control"></textarea>
+                                    <label asp-for="CommentDescription" class="form-label fw-semibold">Leave a comment</label>
+                                    <textarea asp-for="CommentDescription" class="form-control comment-input" rows="3" maxlength="2000" placeholder="What did you think about this post?" required></textarea>
+                                    <div class="form-text">Keep it kind and constructive.</div>
                                     <input type="hidden" asp-for="Id" />
                                     <input type="hidden" asp-for="URLHandle" />
                                 </div>
 
-                                <div class="mb-3">
-                                    <button type="submit" class="btn btn-dark">
-                                        Submit
-                                    </button>
-                                </div>
+                                <button type="submit" class="btn btn-dark px-4">
+                                    <i class="bi bi-send me-2" aria-hidden="true"></i>Post comment
+                                </button>
                             </form>
                         }
+                        else
+                        {
+                            <div class="comment-login-prompt mb-4">
+                                <span>Sign in to share your thoughts.</span>
+                                <a class="btn btn-outline-dark btn-sm" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path">Sign in</a>
+                            </div>
+                        }
 
-                        <div class="card-body">
-                            <!-- Comments go here -->
+                        <div class="comments-list">
+                           @if (Model.Comments != null && Model.Comments.Any())
+                            {
+                                @foreach(var comment in Model.Comments)
+                                {
+                                    <article class="comment-item">
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <span class="comment-avatar" aria-hidden="true">
+                                                    @((string.IsNullOrWhiteSpace(comment.Username) ? "U" : comment.Username[..1]).ToUpperInvariant())
+                                                </span>
+                                                <span class="text-dark fw-semibold">@(string.IsNullOrWhiteSpace(comment.Username) ? "User" : comment.Username)</span>
+                                                <span class="text-secondary small">·</span>
+                                                <time class="small text-secondary" datetime="@comment.DateAdded.ToString("o")">@comment.DateAdded.ToString("MMM d, yyyy · h:mm tt")</time>
+                                            </div>
+                                            <div class="comment-text">
+                                                @comment.Description
+                                            </div>
+                                    </article>
+                                }
+                            }
+                            else
+                            {
+                                <div class="comments-empty">
+                                    <i class="bi bi-chat-square-text" aria-hidden="true"></i>
+                                    <p class="fw-semibold mb-1">No comments yet</p>
+                                    <p class="text-secondary mb-0">Start the conversation with a thoughtful comment.</p>
+                                </div>
+                            }
                         </div>
-                    </div>
+                    </section>
                 }
                 else
                 {

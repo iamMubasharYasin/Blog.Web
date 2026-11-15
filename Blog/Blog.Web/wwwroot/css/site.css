@@ -33,3 +33,134 @@ body {
 .blog-details-content img {
     max-width: 100%;
 }
+
+.comments-panel {
+    --comments-accent: #7357d5;
+    max-width: 52rem;
+    margin-inline: auto;
+}
+
+.comments-eyebrow {
+    color: var(--comments-accent);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+
+.comments-count {
+    border: 1px solid #e7e3f2;
+    border-radius: 999px;
+    color: #5d5870;
+    font-size: .85rem;
+    padding: .35rem .75rem;
+    white-space: nowrap;
+}
+
+.comment-composer,
+.comment-login-prompt {
+    background: #f8f7fb;
+    border: 1px solid #ece9f3;
+    border-radius: 1rem;
+    padding: 1.25rem;
+}
+
+.comment-input {
+    border-color: #e3dfec;
+    border-radius: .75rem;
+    resize: vertical;
+}
+
+.comment-input:focus {
+    border-color: var(--comments-accent);
+    box-shadow: 0 0 0 .2rem rgb(115 87 213 / 15%);
+}
+
+.comment-composer .btn-dark {
+    border-radius: .7rem;
+}
+
+.comment-login-prompt {
+    align-items: center;
+    color: #5d5870;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.comment-login-prompt .btn {
+    border-radius: .65rem;
+    white-space: nowrap;
+}
+
+.comment-item {
+    border-bottom: 1px solid #eeeaf3;
+    padding: 1.1rem .25rem;
+}
+
+.comment-item:first-child {
+    padding-top: .25rem;
+}
+
+.comment-item:last-child {
+    border-bottom: 0;
+    padding-bottom: .25rem;
+}
+
+.comment-avatar {
+    align-items: center;
+    background: #eeeafb;
+    border-radius: 50%;
+    color: #5f47b2;
+    display: inline-flex;
+    flex: 0 0 2.25rem;
+    font-size: .9rem;
+    font-weight: 700;
+    height: 2.25rem;
+    justify-content: center;
+    width: 2.25rem;
+}
+
+.comment-text {
+    color: #34313b;
+    line-height: 1.65;
+    margin-left: 2.85rem;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.comments-empty {
+    background: #faf9fc;
+    border: 1px dashed #ded9e9;
+    border-radius: 1rem;
+    color: #514b60;
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+.comments-empty i {
+    color: var(--comments-accent);
+    display: block;
+    font-size: 1.7rem;
+    margin-bottom: .5rem;
+}
+
+@media (max-width: 575.98px) {
+    .comment-composer,
+    .comment-login-prompt {
+        padding: 1rem;
+    }
+
+    .comment-login-prompt {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .comment-item > .d-flex {
+        flex-wrap: wrap;
+    }
+
+    .comment-item time {
+        flex-basis: 100%;
+        margin-left: 2.85rem;
+    }
+}
