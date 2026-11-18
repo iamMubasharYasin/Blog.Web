@@ -44,7 +44,6 @@ namespace Blog.Web.Controllers
             }
             //show error notification
             return View();
-
         }
 
         [HttpGet]
